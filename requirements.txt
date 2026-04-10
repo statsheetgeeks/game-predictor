@@ -1,0 +1,8 @@
+xgboost>=2.0
+requests>=2.31
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+matplotlib>=3.8
+seaborn>=0.13
+pybaseball>=2.2
