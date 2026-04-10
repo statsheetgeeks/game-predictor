@@ -3,25 +3,291 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLB Game Predictions</title>
+  <title>MLB Game Predictions — 2026-04-10</title>
   <style>
-    :root { --bg: #0d1117; --surface: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #3b82f6; }
+    :root {
+      --bg: #0d1117; --surface: #161b22; --border: #30363d;
+      --text: #e6edf3; --muted: #8b949e; --accent: #3b82f6;
+      --green: #22c55e; --red: #ef4444; --gold: #f59e0b;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 3rem; text-align: center; max-width: 520px; }
-    .icon { font-size: 3rem; margin-bottom: 1rem; }
-    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-top: 0.75rem; }
-    .badge { display: inline-block; background: var(--accent); color: white; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 12px; margin-top: 1.25rem; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header h1 { font-size: 1.4rem; color: var(--text); }
+    header .date { color: var(--muted); font-size: 0.9rem; margin-top: 0.2rem; }
+    header .badge { background: var(--accent); color: white; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 600; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+    .chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 2rem; text-align: center; }
+    .chart-wrap img { max-width: 100%; border-radius: 6px; }
+    .section-title { color: var(--muted); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 2rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead th { background: #21262d; color: var(--muted); font-weight: 600; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #1c2128; }
+    td { padding: 0.65rem 1rem; color: var(--text); vertical-align: middle; }
+    .matchup { font-weight: 600; white-space: nowrap; }
+    .score { font-family: 'Courier New', monospace; font-weight: 700; color: var(--gold); }
+    .total { font-weight: 700; color: var(--accent); }
+    .winner-home { color: var(--green); font-weight: 700; }
+    .winner-away { color: var(--red); font-weight: 700; }
+    .elite { color: var(--gold); font-size: 0.78rem; }
+    .weather { color: var(--muted); font-size: 0.78rem; }
+    .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1.25rem; }
+    .meta-card .label { color: var(--muted); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta-card .value { color: var(--text); font-size: 1.2rem; font-weight: 700; margin-top: 0.1rem; }
+    .download { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.82rem; text-decoration: none; transition: border-color 0.15s, color 0.15s; }
+    .download:hover { border-color: var(--accent); color: var(--accent); }
+    footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 2rem; border-top: 1px solid var(--border); }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="icon">⚾</div>
-    <h1>MLB Game Predictions</h1>
-    <p>This page updates every morning at <strong>9:00 AM CT</strong> with that day's predicted scores, win probabilities, and lineup breakdowns powered by XGBoost + Random Forest.</p>
-    <p>The first run is in progress or hasn't fired yet. Check back after 9 AM!</p>
-    <span class="badge">Powered by GitHub Actions</span>
+  <header>
+    <div>
+      <h1>⚾ MLB Game Predictions</h1>
+      <div class="date">Based on actual starting lineups · 2026-04-10 · Updated 9:00 AM CT</div>
+    </div>
+    <span class="badge">XGBoost + RF Ensemble</span>
+  </header>
+
+  <div class="container">
+    <div class="meta">
+      <div class="meta-card">
+        <div class="label">Games Today</div>
+        <div class="value">14</div>
+      </div>
+      <div class="meta-card">
+        <div class="label">Avg Total Runs</div>
+        <div class="value">9.2</div>
+      </div>
+      <div class="meta-card">
+        <div class="label">Highest Scoring</div>
+        <div class="value">BOS @ STL</div>
+      </div>
+      <div class="meta-card">
+        <div class="label">Best Pitching Duel</div>
+        <div class="value">PIT @ CHC</div>
+      </div>
+      <a class="download" href="game-predictions-2026-04-10.csv" download>⬇ Download CSV</a>
+    </div>
+
+    <div class="chart-wrap">
+      <img src="game-predictions-2026-04-10.png" alt="Game Predictions Chart for 2026-04-10">
+    </div>
+
+    <div class="section-title">All Games — Sorted by Predicted Total Runs</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Matchup</th>
+            <th>Predicted Score</th>
+            <th>Predicted Winner</th>
+            <th>Win Prob (H/A)</th>
+            <th>Total</th>
+            <th>OPS (H/A)</th>
+            <th>xBA (H/A)</th>
+            <th>Barrel% (H/A)</th>
+            <th>Home Faces (ERA)</th>
+            <th>Away Faces (ERA)</th>
+            <th>Weather</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td class="matchup">BOS @ STL</td>
+          <td class="score">8.6 – 3.3</td>
+          <td class="winner-away">BOS</td>
+          <td>8% / 92%</td>
+          <td class="total">11.9</td>
+          <td>0.683 / 0.746</td>
+          <td>0.298 / 0.323</td>
+          <td>10.7% / 11.6%</td>
+          <td>Dustin May (4.13)</td>
+          <td>Connelly Early (2.51)</td>
+          <td class="weather">68°F / 12mph / 27% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">WSH @ MIL</td>
+          <td class="score">6.3 – 5.2</td>
+          <td class="winner-away">WSH</td>
+          <td>38% / 62%</td>
+          <td class="total">11.4</td>
+          <td>0.72 / 0.696</td>
+          <td>0.332 / 0.352</td>
+          <td>9.9% / 11.4%</td>
+          <td>Aaron Ashby (3.58)</td>
+          <td>Jake Irvin (4.99)</td>
+          <td class="weather">54°F / 7mph / 0% rain 🏟️</td>
+        </tr>
+        <tr>
+          <td class="matchup">MIA @ DET</td>
+          <td class="score">6.4 – 4.4</td>
+          <td class="winner-away">MIA</td>
+          <td>29% / 71%</td>
+          <td class="total">10.9</td>
+          <td>0.755 / 0.721</td>
+          <td>0.321 / 0.313</td>
+          <td>13.0% / 11.2%</td>
+          <td>Keider Montero (4.52)</td>
+          <td>Chris Paddack (4.7)</td>
+          <td class="weather">44°F / 5mph / 0% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">AZ @ PHI</td>
+          <td class="score">5.8 – 4.9</td>
+          <td class="winner-away">AZ</td>
+          <td>41% / 59%</td>
+          <td class="total">10.7</td>
+          <td>0.777 / 0.713</td>
+          <td>0.328 / 0.321</td>
+          <td>11.8% / 14.1%</td>
+          <td>Jesús Luzardo (4.19)</td>
+          <td>Michael Soroka (3.85)</td>
+          <td class="weather">66°F / 10mph / 0% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">COL @ SD</td>
+          <td class="score">6.3 – 3.6</td>
+          <td class="winner-away">COL</td>
+          <td>23% / 77%</td>
+          <td class="total">9.9</td>
+          <td>0.766 / 0.698</td>
+          <td>0.345 / 0.364</td>
+          <td>11.5% / 11.1%</td>
+          <td>Walker Buehler (3.56)</td>
+          <td>Tomoyuki Sugano (4.46)</td>
+          <td class="weather">52°F / 10mph / 5% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">CLE @ ATL</td>
+          <td class="score">2.7 – 6.9</td>
+          <td class="winner-home">ATL</td>
+          <td>87% / 13%</td>
+          <td class="total">9.6</td>
+          <td>0.79 / 0.814</td>
+          <td>0.326 / 0.354</td>
+          <td>12.6% / 12.5%</td>
+          <td>Bryce Elder (4.44)</td>
+          <td>Slade Cecconi (5.08)</td>
+          <td class="weather">48°F / 12mph / 0% rain 🏟️</td>
+        </tr>
+        <tr>
+          <td class="matchup">MIN @ TOR</td>
+          <td class="score">6.5 – 3.0</td>
+          <td class="winner-away">MIN</td>
+          <td>17% / 83%</td>
+          <td class="total">9.5</td>
+          <td>0.689 / 0.733</td>
+          <td>0.297 / 0.325</td>
+          <td>12.2% / 11.4%</td>
+          <td>Patrick Corbin (4.52)</td>
+          <td>Simeon Woods Richardson (4.12)</td>
+          <td class="weather">72°F / 8mph / 10% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">TEX @ LAD</td>
+          <td class="score">2.7 – 6.7</td>
+          <td class="winner-home">LAD</td>
+          <td>86% / 14%</td>
+          <td class="total">9.3</td>
+          <td>0.81 / 0.762</td>
+          <td>0.376 / 0.332</td>
+          <td>13.2% / 14.6%</td>
+          <td>Tyler Glasnow (3.72) <span class="elite">⚡ Tyler Glasnow</span></td>
+          <td>Kumar Rocker (5.33)</td>
+          <td class="weather">72°F / 8mph / 10% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">SF @ BAL</td>
+          <td class="score">4.2 – 4.7</td>
+          <td class="winner-home">BAL</td>
+          <td>56% / 44%</td>
+          <td class="total">8.8</td>
+          <td>0.733 / 0.733</td>
+          <td>0.367 / 0.312</td>
+          <td>12.5% / 8.3%</td>
+          <td>Shane Baz (4.24)</td>
+          <td>Landen Roupp (3.76)</td>
+          <td class="weather">52°F / 10mph / 5% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">ATH @ NYM</td>
+          <td class="score">2.3 – 6.2</td>
+          <td class="winner-home">NYM</td>
+          <td>86% / 14%</td>
+          <td class="total">8.5</td>
+          <td>0.707 / 0.768</td>
+          <td>0.286 / 0.359</td>
+          <td>11.4% / 12.4%</td>
+          <td>Clay Holmes (3.59)</td>
+          <td>J.T. Ginn (4.84)</td>
+          <td class="weather">72°F / 8mph / 10% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">CWS @ KC</td>
+          <td class="score">4.3 – 4.0</td>
+          <td class="winner-away">CWS</td>
+          <td>46% / 54%</td>
+          <td class="total">8.3</td>
+          <td>0.733 / 0.614</td>
+          <td>0.302 / 0.232</td>
+          <td>11.0% / 10.3%</td>
+          <td>Kris Bubic (4.14)</td>
+          <td>Davis Martin (4.25)</td>
+          <td class="weather">52°F / 10mph / 5% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">HOU @ SEA</td>
+          <td class="score">3.5 – 3.7</td>
+          <td class="winner-home">SEA</td>
+          <td>52% / 48%</td>
+          <td class="total">7.2</td>
+          <td>0.732 / 0.771</td>
+          <td>0.329 / 0.35</td>
+          <td>9.3% / 10.8%</td>
+          <td>Emerson Hancock (4.52)</td>
+          <td>Tatsuya Imai (4.32)</td>
+          <td class="weather">63°F / 6mph / 0% rain</td>
+        </tr>
+        <tr>
+          <td class="matchup">LAA @ CIN</td>
+          <td class="score">3.0 – 4.2</td>
+          <td class="winner-home">CIN</td>
+          <td>63% / 37%</td>
+          <td class="total">7.1</td>
+          <td>0.77 / 0.756</td>
+          <td>0.306 / 0.277</td>
+          <td>13.6% / 10.6%</td>
+          <td>Chase Burns (3.83)</td>
+          <td>Jack Kochanowicz (5.66)</td>
+          <td class="weather">72°F / 8mph / 10% rain 🏟️</td>
+        </tr>
+        <tr>
+          <td class="matchup">PIT @ CHC</td>
+          <td class="score">4.1 – 2.2</td>
+          <td class="winner-away">PIT</td>
+          <td>29% / 71%</td>
+          <td class="total">6.3</td>
+          <td>0.764 / 0.687</td>
+          <td>0.317 / 0.276</td>
+          <td>14.1% / 10.5%</td>
+          <td>Shota Imanaga (3.26)</td>
+          <td>Carmen Mlodzinski (3.2)</td>
+          <td class="weather">52°F / 10mph / 5% rain</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <footer>
+    Game Predictions · XGBoost + Random Forest trained on 2022–2026 MLB data ·
+    Player-level Statcast features (xBA, barrel rate, EV) · Park factors · Live weather ·
+    Model MAE ~2.2 runs · Win accuracy ~57–60%
+  </footer>
 </body>
 </html>
