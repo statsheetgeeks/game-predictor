@@ -72,7 +72,9 @@ ORDER_WEIGHTS = {
 _OW_SUM = sum(ORDER_WEIGHTS.values())
 
 # ── Dome / retractable-roof venues ───────────────────────────────────────────
-DOME_VENUES = {4705, 2407, 32, 2408, 4140, 3633, 2602}
+# 2407 = Tropicana Field (TB), 2408 = loanDepot park (MIA), 4140 = Rogers Centre (TOR)
+# 3633 = Minute Maid Park (HOU), 2602 = Chase Field (ARI), 2500 = American Family Field (MIL)
+DOME_VENUES = {2407, 2408, 4140, 3633, 2602, 2500}
 
 # ── Park GPS for weather ─────────────────────────────────────────────────────
 PARK_COORDS = {
@@ -861,8 +863,10 @@ def predict_today(xgb_model, rf_model, verbose=True):
             total  = home_r + away_r
             diff   = home_r - away_r
             home_win_prob = 1 / (1 + np.exp(-diff * 0.45))
-            hp = pitcher_meta.get(home_abbr, {})
-            ap = pitcher_meta.get(away_abbr, {})
+            # pitcher_meta[home_abbr] = pitcher home batters face = the AWAY starter
+            # pitcher_meta[away_abbr] = pitcher away batters face = the HOME starter
+            away_sp = pitcher_meta.get(home_abbr, {})
+            home_sp = pitcher_meta.get(away_abbr, {})
             hl = lineup_meta.get(home_abbr, {})
             al = lineup_meta.get(away_abbr, {})
             results.append({
@@ -877,16 +881,18 @@ def predict_today(xgb_model, rf_model, verbose=True):
                 'home_win_prob':    round(home_win_prob * 100, 1),
                 'away_win_prob':    round((1 - home_win_prob) * 100, 1),
                 'predicted_winner': home_abbr if home_win_prob >= 0.5 else away_abbr,
-                'home_faces':       ap.get('name', 'TBD'),
-                'home_sp_hand':     ap.get('hand', '?'),
-                'home_sp_era':      ap.get('era', 'N/A'),
-                'home_sp_last3':    ap.get('last_era', 'N/A'),
-                'home_sp_ped':      ap.get('pedigree', ''),
-                'away_faces':       hp.get('name', 'TBD'),
-                'away_sp_hand':     hp.get('hand', '?'),
-                'away_sp_era':      hp.get('era', 'N/A'),
-                'away_sp_last3':    hp.get('last_era', 'N/A'),
-                'away_sp_ped':      hp.get('pedigree', ''),
+                # Home batters face the AWAY starter
+                'home_faces':       away_sp.get('name', 'TBD'),
+                'home_sp_hand':     away_sp.get('hand', '?'),
+                'home_sp_era':      away_sp.get('era', 'N/A'),
+                'home_sp_last3':    away_sp.get('last_era', 'N/A'),
+                'home_sp_ped':      away_sp.get('pedigree', ''),
+                # Away batters face the HOME starter
+                'away_faces':       home_sp.get('name', 'TBD'),
+                'away_sp_hand':     home_sp.get('hand', '?'),
+                'away_sp_era':      home_sp.get('era', 'N/A'),
+                'away_sp_last3':    home_sp.get('last_era', 'N/A'),
+                'away_sp_ped':      home_sp.get('pedigree', ''),
                 'home_lu_ops':      hl.get('ops_mean', ''),
                 'home_lu_xba':      hl.get('xba_mean', ''),
                 'home_lu_barrel':   hl.get('barrel', ''),
